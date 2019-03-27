@@ -11,11 +11,9 @@ public class synthesisTest
 		voce.SpeechInterface.init("../../../lib", true, false, "", "");
 		//voce.SpeechInterface.synthesize("This is a speech synthesis test.");
 		System.out.println("Enter text to be spoken");
-
   }
 
-  public speakString(String s)
-
+  public void speakString(String s)
 		try
 		{
 				voce.SpeechInterface.synthesize(s);
