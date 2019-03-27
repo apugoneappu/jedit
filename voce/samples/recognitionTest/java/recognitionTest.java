@@ -30,8 +30,7 @@ public class recognitionTest
 {
 	public static void main(String[] argv)
 	{
-		voce.SpeechInterface.init("../../../lib", false, true, 
-			"./grammar", "digits");
+		voce.SpeechInterface.init("../../../lib", false, true, "./grammar", "digits");
 
 		System.out.println("This is a speech recognition test. " 
 			+ "Speak digits from 0-9 into the microphone. " 
