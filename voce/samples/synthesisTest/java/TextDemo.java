@@ -8,10 +8,13 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_t2s;
   protected JButton button_s2t;
   private final static String newline = "\n";
+  synthesisTest speech2Text;
 
   public TextDemo() {
+
     super(new GridBagLayout());
 
+    speech2Text = new synthesisTest();
     button_t2s = new JButton("Text To Speech");
     button_s2t = new JButton("Speech To Text");
     editorPane = new JEditorPane();
@@ -41,13 +44,13 @@ public class TextDemo extends JPanel implements ActionListener {
     c.weighty = 0.1;
     add(button_s2t, c);
 
+    button_t2s.addActionListener(this);
     //add(button, c);
   }
 
   public void actionPerformed(ActionEvent evt) {
     String text = editorPane.getText();
-
-    //text to speech here
+    speech2Text.read(text);
   }
 
   /**
@@ -75,7 +78,8 @@ public class TextDemo extends JPanel implements ActionListener {
   public static void main(String[] args) {
     //Schedule a job for the event dispatch thread:
     //creating and showing this application's GUI.
-    //synthesisTest speech2Text = new synthesisTest();
+    
+    recognitionTest recognize = new recognitionTest();
     
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
