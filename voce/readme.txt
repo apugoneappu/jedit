@@ -5,6 +5,8 @@
 3) To run the code, use the following command:
     javac -cp path_to_lib_folder/*:. classname
 
-Example o
+Example :
+
+- cd voce
 
 
