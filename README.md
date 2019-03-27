@@ -8,15 +8,14 @@ Usage instructions -
 3) Change the parameters of the function `voce.SpeechInterface.init("path_to_lib_folder", true, false, "", "");`
 4) To compile your code, use the following command pattern :
     javac -cp path_to_lib_folder/*:. classname.java
-
 5) To run the code, use the following command:
     javac -cp path_to_lib_folder/*:. classname
 
 Example :
 
-- cd ./samples/synthesisTest/java
-- javac -cp ../../../lib/*:. synthesisTest.java
-- java -cp ../../../lib/*:. synthesisTest
+1) cd ./samples/synthesisTest/java
+2) javac -cp ../../../lib/*:. synthesisTest.java
+3) java -cp ../../../lib/*:. synthesisTest
 
 References - 
 1) [Voce: Open source speech interaction](http://voce.sourceforge.net)
