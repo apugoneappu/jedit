@@ -5,13 +5,15 @@ import javax.swing.*;
 public class TextDemo extends JPanel implements ActionListener {
 
   protected JEditorPane editorPane;
-  protected JButton button;
+  protected JButton button_t2s;
+  protected JButton button_s2t;
   private final static String newline = "\n";
 
   public TextDemo() {
     super(new GridBagLayout());
 
-    button = new JButton("Print Text");
+    button_t2s = new JButton("Text To Speech");
+    button_s2t = new JButton("Speech To Text");
     editorPane = new JEditorPane();
 
     JScrollPane scrollPane = new JScrollPane(editorPane);
@@ -22,15 +24,22 @@ public class TextDemo extends JPanel implements ActionListener {
     c.insets = new Insets(5,5,2,5);
     c.fill = GridBagConstraints.BOTH;
     c.weightx = 1.0;
-    c.weighty = 1.0;
+    c.weighty = 0.9;
     add(scrollPane, c);
 
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.insets = new Insets(2,5,5,5);
     c.fill = GridBagConstraints.BOTH;
-    c.weightx = 1.0;
-    c.weighty = 1.0;
-    add(button, c);
+    c.weightx = 0.5;
+    c.weighty = 0.1;
+    add(button_t2s, c);
+
+    c.gridwidth = GridBagConstraints.REMAINDER;
+    c.insets = new Insets(2,5,5,5);
+    c.fill = GridBagConstraints.BOTH;
+    c.weightx = 0.5;
+    c.weighty = 0.1;
+    add(button_s2t, c);
 
     //add(button, c);
   }
