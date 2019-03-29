@@ -8,14 +8,20 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_t2s;
   protected JButton button_s2t;
   private final static String newline = "\n";
-  recognitionTest speech2Text;
+  TranscriberDemo speech2Text;
   synthesisTest text2Speech;
 
   public TextDemo() {
 
     super(new GridBagLayout());
 
-    speech2Text = new recognitionTest();
+    try{
+        speech2Text = new TranscriberDemo();
+    }catch( Exception e)
+    {
+        System.out.println("Exception:"+e);
+    }
+
     text2Speech = new synthesisTest();
     button_t2s = new JButton("Text To Speech");
     button_s2t = new JButton("Speech To Text");
@@ -63,7 +69,7 @@ public class TextDemo extends JPanel implements ActionListener {
       text2Speech.read(text);
     }
     else if (evt.getActionCommand().equals("speech2text")) {
-      speech2Text.listenAndTell();
+      speech2Text.SpeechToText();
     }
 
   }
