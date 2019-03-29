@@ -7,7 +7,6 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JEditorPane editorPane;
   protected JButton button_t2s;
   protected JButton button_s2t;
-  private final static String newline = "\n";
   recognitionTest speech2Text;
   synthesisTest text2Speech;
 
@@ -56,14 +55,15 @@ public class TextDemo extends JPanel implements ActionListener {
 
   public void actionPerformed(ActionEvent evt) {
 
-    System.out.println(evt.getActionCommand());
+    //System.out.println(evt.getActionCommand());
 
     if (evt.getActionCommand().equals("text2speech")) {
       String text = editorPane.getText();
       text2Speech.read(text);
     }
     else if (evt.getActionCommand().equals("speech2text")) {
-      speech2Text.listenAndTell();
+      String text = speech2Text.listenAndTell();
+      editorPane.setText(editorPane.getText() + " " + text);
     }
 
   }
@@ -80,6 +80,8 @@ public class TextDemo extends JPanel implements ActionListener {
     JFrame frame = new JFrame("TextDemo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    frame.setPreferredSize(new Dimension(800, 500));
+
     //Add contents to the window.
     frame.getContentPane().add(new TextDemo());
 
@@ -93,7 +95,6 @@ public class TextDemo extends JPanel implements ActionListener {
   public static void main(String[] args) {
     //Schedule a job for the event dispatch thread:
     //creating and showing this application's GUI.
-    
     
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() {
