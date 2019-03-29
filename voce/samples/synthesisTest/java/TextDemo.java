@@ -79,8 +79,16 @@ public class TextDemo extends JPanel implements ActionListener {
       text2Speech.read(text);
     }
     else if (evt.getActionCommand().equals("speech2text")) {
-      String text = speech2Text.SpeechToText();
-      editorPane.setText(editorPane.getText() + " " + text);
+      if( speech2Text.listening == false)
+      {  
+        speech2Text.listening = true;
+        String text = speech2Text.SpeechToText();
+        editorPane.setText(editorPane.getText() + " " + text);
+      }
+      else
+      {
+        speech2Text.listening = false;
+      }
     }
 
   }

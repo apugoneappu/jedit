@@ -8,6 +8,7 @@ import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 
 public class TranscriberDemo {      
     
+    public Boolean listening = false;
     public LiveSpeechRecognizer recognizer;
     
     public TranscriberDemo() throws Exception {
@@ -24,14 +25,20 @@ public class TranscriberDemo {
     
     public String SpeechToText() 
     {
-        String s = " ";
+        String s = "", temp = "";
         // Start recognition process pruning previously cached data.
         recognizer.startRecognition(true);
     	SpeechResult result;
         while ((result = recognizer.getResult()) != null) 
         {
-	       s = s + " "+ result.getHypothesis();    
+           temp = result.getHypothesis();    
+
+           if( temp.contains("thank you"))
+                break;            
+
+           s = s + " " + temp; 
            System.out.format("Hypothesis: %s\n", s);
+
     	}
     	recognizer.stopRecognition();
         return s;
