@@ -24,26 +24,34 @@ public class TextDemo extends JPanel implements ActionListener {
 
     //Add Components to this panel.
     GridBagConstraints c = new GridBagConstraints();
+
+    c.gridheight = 1;
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.insets = new Insets(5,5,2,5);
     c.fill = GridBagConstraints.BOTH;
-    c.weightx = 1.0;
-    c.weighty = 0.9;
+    c.gridy = 0;
+    c.weightx = 1;
+    c.weighty = 1;
     add(scrollPane, c);
 
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    c.insets = new Insets(2,5,5,5);
-    c.fill = GridBagConstraints.BOTH;
-    c.weightx = 0.5;
-    c.weighty = 0.1;
-    add(button_t2s, c);
+    GridBagConstraints c_button = new GridBagConstraints();
+    c_button.insets = new Insets(2, 5, 5, 2);
+    c_button.fill = GridBagConstraints.BOTH;
+    c_button.weightx = 1;
+    c_button.weighty = 0.1;
 
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    c.insets = new Insets(2,5,5,5);
-    c.fill = GridBagConstraints.BOTH;
-    c.weightx = 0.5;
-    c.weighty = 0.1;
-    add(button_s2t, c);
+    c_button.insets = new Insets(2, 2, 5, 2);
+    c_button.gridx = 0;
+    c_button.gridy = 1;
+    c_button.gridwidth = 1;
+    c_button.gridheight = 1;
+    add(button_t2s, c_button);
+
+    c_button.gridx = 1;
+    c_button.gridy = 1;
+    c_button.gridwidth = 1;
+    c_button.gridheight = 1;
+    add(button_s2t, c_button);
 
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
