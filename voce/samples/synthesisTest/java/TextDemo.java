@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class TextDemo extends JPanel implements ActionListener {
+//public class TextDemo extends JPanel implements ActionListener {
 
   protected JEditorPane editorPane;
   protected JButton button_t2s;
