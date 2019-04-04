@@ -1,12 +1,18 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
 public class TextDemo extends JPanel implements ActionListener {
 
   protected JEditorPane editorPane;
   protected JButton button_t2s;
   protected JButton button_s2t;
+  protected JButton button_open;
+  protected JButton button_save;
+  protected JButton button_new;
+  protected JButton button_stop;
+
 
   private final static String newline = "\n";
 
@@ -25,8 +31,14 @@ public class TextDemo extends JPanel implements ActionListener {
     }
 
     text2Speech = new synthesisTest();
+    
     button_t2s = new JButton("Text To Speech");
     button_s2t = new JButton("Speech To Text");
+    button_open = new JButton("Open");
+    button_save = new JButton("Save");
+    button_new = new JButton("New");
+    button_stop = new JButton("Stop");
+
     editorPane = new JEditorPane();
 
     JScrollPane scrollPane = new JScrollPane(editorPane);
@@ -38,7 +50,7 @@ public class TextDemo extends JPanel implements ActionListener {
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.insets = new Insets(5,5,2,5);
     c.fill = GridBagConstraints.BOTH;
-    c.gridy = 0;
+    c.gridy = 1;
     c.weightx = 1;
     c.weighty = 1;
     add(scrollPane, c);
@@ -48,37 +60,71 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.fill = GridBagConstraints.BOTH;
     c_button.weightx = 1;
     c_button.weighty = 0.1;
-
-    c_button.insets = new Insets(2, 2, 5, 2);
-    c_button.gridx = 0;
-    c_button.gridy = 1;
     c_button.gridwidth = 1;
     c_button.gridheight = 1;
+
+    c_button.gridx = 0;
+    c_button.gridy = 2;
     add(button_t2s, c_button);
 
     c_button.gridx = 1;
-    c_button.gridy = 1;
-    c_button.gridwidth = 1;
-    c_button.gridheight = 1;
+    c_button.gridy = 2;
     add(button_s2t, c_button);
 
+    c_button.gridx = 2;
+    c_button.gridy = 2;
+    add(button_stop, c_button);
+
+    c_button.gridx = 0;
+    c_button.gridy = 0;
+    add(button_open, c_button);
+
+    c_button.gridx = 1;
+    c_button.gridy = 0;
+    add(button_save, c_button);
+
+    c_button.gridx = 2;
+    c_button.gridy = 0;
+    add(button_new, c_button);
+    
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
     button_s2t.addActionListener(this);
     button_s2t.setActionCommand("speech2text");
-    //add(button, c);
+    
+    button_open.addActionListener(this);
+    button_open.setActionCommand("open");
+
+    button_save.addActionListener(this);
+    button_save.setActionCommand("save");
+
+    button_new.addActionListener(this);
+    button_new.setActionCommand("new");
+
+    button_stop.addActionListener(this);
+    button_stop.setActionCommand("stop");
+
   }
 
   public void actionPerformed(ActionEvent evt) {
 
     //System.out.println(evt.getActionCommand());
 
+    // For text to speech command
     if (evt.getActionCommand().equals("text2speech")) {
       String text = editorPane.getText();
       text2Speech.read(text);
     }
-    else if (evt.getActionCommand().equals("speech2text")) {
+
+    // For stoping the text to speech conversion
+    if (evt.getActionCommand().equals("stop")) {
+      text2Speech.stop();
+    }
+
+    // For speech to text command    
+    if (evt.getActionCommand().equals("speech2text")) {
+
       if( speech2Text.listening == false)
       {  
         speech2Text.listening = true;
@@ -91,6 +137,108 @@ public class TextDemo extends JPanel implements ActionListener {
       }
     }
 
+    // For open command
+    if (evt.getActionCommand().equals("open")) {
+      
+      String filename = "";
+      try{
+        final JFileChooser fc = new JFileChooser();
+        
+        // Creates the dialogue box
+        int r = fc.showOpenDialog(null); 
+        
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getAbsolutePath(); 
+        } 
+
+        File file = new File(filename); 
+        BufferedReader br = new BufferedReader(new FileReader(file)); 
+        String text; 
+        while ((text = br.readLine()) != null) 
+          editorPane.setText(editorPane.getText() + " \n" + text); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+        
+    }
+
+    // For save command
+    if (evt.getActionCommand().equals("save")) {
+
+      String str = editorPane.getText(); 
+      String filename = "";
+      
+      try{
+        final JFileChooser fc = new JFileChooser();
+                
+        // Creates the dialogue box
+        int r = fc.showSaveDialog(null); 
+        
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getAbsolutePath(); 
+        }
+        // attach a file to FileWriter  
+        FileWriter fw = new FileWriter(filename); 
+  
+        // read character wise from string and write into FileWriter  
+        for (int i = 0; i < str.length(); i++) 
+            fw.write(str.charAt(i)); 
+  
+        fw.close(); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+        
+    }
+
+    // For new command
+    if (evt.getActionCommand().equals("new")) {
+
+      // Before clearing all text prompt to save existing data
+      String str = editorPane.getText(); 
+      String filename = "";
+      
+      try{
+        final JFileChooser fc = new JFileChooser();
+        
+        // Creates the dialogue box
+        int r = fc.showSaveDialog(null); 
+        
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getAbsolutePath(); 
+        }
+        
+        // attach a file to FileWriter  
+        FileWriter fw = new FileWriter(filename); 
+  
+        // read character wise from string and write into FileWriter  
+        for (int i = 0; i < str.length(); i++) 
+            fw.write(str.charAt(i)); 
+  
+        fw.close(); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+
+      str = " ";
+      editorPane.setText(str); 
+    }
+    
   }
 
   /**
