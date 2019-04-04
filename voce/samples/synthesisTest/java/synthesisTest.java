@@ -6,18 +6,30 @@ public class synthesisTest
 	public synthesisTest()
 	{
 		voce.SpeechInterface.init("../../../lib", true, false, "", "");
-  }
-
-  public void read(String s)
-  {
-		try
-		{
-				voce.SpeechInterface.synthesize(s);
     }
-		catch (Exception e)
-		{
-			System.out.println( "Error:" + e);
-		}
-	}
+
+    public void read(String s)
+    {
+  		try
+  		{
+  			voce.SpeechInterface.synthesize(s);
+      	}
+  		catch (Exception e)
+  		{
+  			System.out.println( "Error:" + e);
+  		}
+  	}
+
+  	public void stop()
+	{
+		try
+  		{
+  			voce.SpeechInterface.stopSynthesizing();
+      	}
+  		catch (Exception e)
+  		{
+  			System.out.println( "Error:" + e);
+  		}	
+	}  	
 }
 
