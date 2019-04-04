@@ -1,6 +1,9 @@
 # jedit
 An editor with text-to-speech and speech-to-text capabilities.
 
+##Build continuous integration
+[![Build Status](https://travis-ci.com/apugoneappu/jedit.svg?branch=greatest)](https://travis-ci.com/apugoneappu/jedit)
+
 Usage instructions - 
 ----------------------------------
 1) Change directory to the directory of the .java file which is to be run.
