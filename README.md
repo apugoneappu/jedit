@@ -1,7 +1,9 @@
 # jedit
 An editor with text-to-speech and speech-to-text capabilities.
 
-##Build continuous integration
+Build continuous integration
+--------------------------------
+
 [![Build Status](https://travis-ci.com/apugoneappu/jedit.svg?branch=greatest)](https://travis-ci.com/apugoneappu/jedit)
 
 Usage instructions - 
