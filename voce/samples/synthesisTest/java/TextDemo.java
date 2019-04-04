@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.awt.datatransfer.*;
 
 public class TextDemo extends JPanel implements ActionListener {
 
@@ -12,6 +13,9 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_save;
   protected JButton button_new;
   protected JButton button_stop;
+  protected JButton button_paste;
+
+  Clipboard clipboard;
 
 
   private final static String newline = "\n";
@@ -23,21 +27,24 @@ public class TextDemo extends JPanel implements ActionListener {
 
     super(new GridBagLayout());
 
-    try{
+    try {
         speech2Text = new TranscriberDemo();
-    }catch( Exception e)
+    }
+    catch( Exception e)
     {
         System.out.println("Exception:"+e);
     }
 
     text2Speech = new synthesisTest();
     
+    clipboard = Toolkit.getDefaultToolkit( ).getSystemClipboard( );
     button_t2s = new JButton("Text To Speech");
     button_s2t = new JButton("Speech To Text");
     button_open = new JButton("Open");
     button_save = new JButton("Save");
     button_new = new JButton("New");
     button_stop = new JButton("Stop");
+    button_paste = new JButton("Paste");
 
     editorPane = new JEditorPane();
 
@@ -87,6 +94,10 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.gridy = 0;
     add(button_new, c_button);
     
+    c_button.gridx = 0;
+    c_button.gridy = 3;
+    add(button_paste, c_button);
+
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
@@ -105,6 +116,8 @@ public class TextDemo extends JPanel implements ActionListener {
     button_stop.addActionListener(this);
     button_stop.setActionCommand("stop");
 
+    button_paste.addActionListener(this);
+    button_paste.setActionCommand("paste");
   }
 
   public void actionPerformed(ActionEvent evt) {
@@ -239,6 +252,22 @@ public class TextDemo extends JPanel implements ActionListener {
       editorPane.setText(str); 
     }
     
+    if (evt.getActionCommand().equals("paste")) {
+
+      try {
+         Transferable t = clipboard.getContents(null);
+         if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+           String text = (String)t.getTransferData(DataFlavor.stringFlavor);
+           editorPane.setText(editorPane.getText() + "" + text); 
+         }
+      }
+      catch (UnsupportedFlavorException | IOException ex) {
+          System.out.println("");
+      }
+
+    }
+
+
   }
 
   /**
