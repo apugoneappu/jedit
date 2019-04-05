@@ -5,7 +5,7 @@ public class synthesisTest
 {
 	public synthesisTest()
 	{
-		voce.SpeechInterface.init("../../../lib", true, false, "", "");
+		voce.SpeechInterface.init("../lib", true, false, "", "");
     }
 
     public void read(String s)
