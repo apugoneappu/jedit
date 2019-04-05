@@ -2,14 +2,8 @@ import java.awt.GridLayout;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
-
-import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import java.io.*;
 import java.awt.datatransfer.*;
-
-
 
 public class Snippet implements ActionListener {
 
@@ -51,26 +45,56 @@ public class Snippet implements ActionListener {
     btnFind.addActionListener(this);
     btnFind.setActionCommand("find");
 
+    btnReplace.addActionListener(this);
+    btnReplace.setActionCommand("replace");
   }
 
   public void actionPerformed(ActionEvent evt) {
 
 
-    // For text to speech command
+    //for find and highlight
     if (evt.getActionCommand().equals("find")) {
-      String text = txtFind.getText();
-      if (editorPane.getText().contains(text) == true) {
-        System.out.println("yo");
-      }
-      else {
-        System.out.println("no");
-      }
+      String find = txtFind.getText();
+      String text = editorPane.getText();
+      if (text.contains(find) == true) {
 
+        //highlight all matches
+        
+        javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+        try {
+          int index = text.indexOf(find);
+          for (; index < text.length() && index != -1;) {
+            editorPane.getHighlighter().addHighlight(index, index + find.length(), highlightPainter);
+            index = text.indexOf(find, index+find.length())   ;
+          }
+        }
+        catch (Exception e) {
+          System.out.println(e);
+        }
+      }
     }
+
+    //for replace and highlight
+    if (evt.getActionCommand().equals("replace")) {
+      String find = txtFind.getText();
+      String text = editorPane.getText();
+      if (text.contains(find) == true) {
+
+        
+        javax.swing.text.DefaultHighlighter.DefaultHighlightPainter highlightPainter = new javax.swing.text.DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
+        
+        try {
+          for (int i = 0; i < text.length(); i++) {
+            editorPane.getHighlighter().addHighlight(text.indexOf(find), text.indexOf(find) + find.length(), highlightPainter);
+          }
+        }
+        catch (Exception e) {
+          System.out.println(e);
+        }
+      }
+    }
+
   }
-
-
-
 
   public static void show(JFrame frame) {
       frame.setVisible(true);
