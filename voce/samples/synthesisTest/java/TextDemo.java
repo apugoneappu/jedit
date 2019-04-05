@@ -14,11 +14,10 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_new;
   protected JButton button_stop;
   protected JButton button_paste;
+  protected JButton button_copy;
+  protected JButton button_cut;
 
   Clipboard clipboard;
-
-
-  private final static String newline = "\n";
 
   TranscriberDemo speech2Text;
   synthesisTest text2Speech;
@@ -45,9 +44,10 @@ public class TextDemo extends JPanel implements ActionListener {
     button_new = new JButton("New");
     button_stop = new JButton("Stop");
     button_paste = new JButton("Paste");
+    button_copy = new JButton("Copy");
+    button_cut = new JButton("Cut");
 
     editorPane = new JEditorPane();
-
     JScrollPane scrollPane = new JScrollPane(editorPane);
 
     //Add Components to this panel.
@@ -98,6 +98,14 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.gridy = 3;
     add(button_paste, c_button);
 
+    c_button.gridx = 1;
+    c_button.gridy = 3;
+    add(button_copy, c_button);
+
+    c_button.gridx = 2;
+    c_button.gridy = 3;
+    add(button_cut, c_button);
+
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
@@ -118,6 +126,12 @@ public class TextDemo extends JPanel implements ActionListener {
 
     button_paste.addActionListener(this);
     button_paste.setActionCommand("paste");
+
+    button_copy.addActionListener(this);
+    button_copy.setActionCommand("copy");
+
+    button_cut.addActionListener(this);
+    button_cut.setActionCommand("cut");
   }
 
   public void actionPerformed(ActionEvent evt) {
@@ -258,14 +272,69 @@ public class TextDemo extends JPanel implements ActionListener {
          Transferable t = clipboard.getContents(null);
          if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
            String text = (String)t.getTransferData(DataFlavor.stringFlavor);
-           editorPane.setText(editorPane.getText() + "" + text); 
+           editorPane.getDocument().insertString(editorPane.getCaretPosition(), text, null);
          }
       }
-      catch (UnsupportedFlavorException | IOException ex) {
-          System.out.println("");
+      catch (Exception ex) {
+          System.out.println(ex);
       }
 
     }
+
+    if (evt.getActionCommand().equals("copy")) {
+
+      //if no text is selected, copy all
+      if (editorPane.getSelectedText() == null) {
+        try {
+           StringSelection data = new StringSelection(editorPane.getText());
+           clipboard.setContents(data, data);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+
+      //some text is selected, copy only that
+      else {
+        try {
+           StringSelection data = new StringSelection(editorPane.getSelectedText());
+           clipboard.setContents(data, data);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+    }
+
+    if (evt.getActionCommand().equals("cut")) {
+
+      //if no text is selected, cut all
+      if (editorPane.getSelectedText() == null) {
+
+        try {
+           StringSelection data = new StringSelection(editorPane.getText());
+           clipboard.setContents(data, data);
+           editorPane.setText("");
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+
+      //some text is selected, cut only that
+      else {
+        try {
+           StringSelection data = new StringSelection(editorPane.getSelectedText());
+           clipboard.setContents(data, data);
+           editorPane.replaceSelection("");
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+    }
+
+
 
 
   }
