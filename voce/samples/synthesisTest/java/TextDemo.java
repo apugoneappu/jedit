@@ -17,9 +17,10 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_copy;
   protected JButton button_cut;
   protected JButton button_fandr;
+  protected JButton button_font;
 
+  String file = "";
   Clipboard clipboard;
-
   TranscriberDemo speech2Text;
   synthesisTest text2Speech;
 
@@ -48,7 +49,9 @@ public class TextDemo extends JPanel implements ActionListener {
     button_copy = new JButton("Copy");
     button_cut = new JButton("Cut");
     button_fandr = new JButton("Find and Replace");
+    button_font = new JButton("Font");
 
+    
     editorPane = new JEditorPane();
     JScrollPane scrollPane = new JScrollPane(editorPane);
 
@@ -112,6 +115,10 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.gridy = 4;
     add(button_fandr, c_button);
 
+    c_button.gridx = 4;
+    c_button.gridy = 0;
+    add(button_font, c_button);
+
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
@@ -141,6 +148,10 @@ public class TextDemo extends JPanel implements ActionListener {
 
     button_fandr.addActionListener(this);
     button_fandr.setActionCommand("fandr");
+
+    button_font.addActionListener(this);
+    button_font.setActionCommand("font");
+
   }
 
   public void actionPerformed(ActionEvent evt) {
@@ -203,32 +214,29 @@ public class TextDemo extends JPanel implements ActionListener {
         
     }
 
-    // For save command
-    if (evt.getActionCommand().equals("save")) {
-
-      String str = editorPane.getText(); 
-      String filename = "";
+    // For font command
+    if (evt.getActionCommand().equals("font")) {
       
+      String filename = "";
       try{
-        final JFileChooser fc = new JFileChooser();
-                
+        final JFileChooser fc = new JFileChooser("/home/shrey/jedit/voce/samples/synthesisTest/java/fonts");
+        
         // Creates the dialogue box
-        int r = fc.showSaveDialog(null); 
+        int r = fc.showOpenDialog(null); 
         
         // if the user selects a file 
         if (r == JFileChooser.APPROVE_OPTION) 
         { 
             // set the label to the path of the selected file 
-            filename = fc.getSelectedFile().getAbsolutePath(); 
-        }
-        // attach a file to FileWriter  
-        FileWriter fw = new FileWriter(filename); 
-  
-        // read character wise from string and write into FileWriter  
-        for (int i = 0; i < str.length(); i++) 
-            fw.write(str.charAt(i)); 
-  
-        fw.close(); 
+            filename = fc.getSelectedFile().getName(); 
+        } 
+
+        editorPane.setFont(new Font(filename,0,14));
+        // editorPane.setSelectedTextColor(Color.green);
+
+        // String text; 
+        // while ((text = br.readLine()) != null) 
+        //   editorPane.setText(editorPane.getText() + " \n" + text); 
 
       }catch(Exception e)
       {
@@ -237,41 +245,118 @@ public class TextDemo extends JPanel implements ActionListener {
         
     }
 
-    // For new command
-    if (evt.getActionCommand().equals("new")) {
-
-      // Before clearing all text prompt to save existing data
-      String str = editorPane.getText(); 
-      String filename = "";
+    // For font size command
+    if (evt.getActionCommand().equals("font_size")) {
       
+      String filename = "";
       try{
-        final JFileChooser fc = new JFileChooser();
+        final JFileChooser fc = new JFileChooser("/home/shrey/jedit/voce/samples/synthesisTest/java/fonts");
         
         // Creates the dialogue box
-        int r = fc.showSaveDialog(null); 
+        int r = fc.showOpenDialog(null); 
         
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getName(); 
+        } 
+
+        editorPane.setFont(new Font(filename,0,40));
+        // editorPane.setSelectedTextColor(Color.green);
+
+        // String text; 
+        // while ((text = br.readLine()) != null) 
+        //   editorPane.setText(editorPane.getText() + " \n" + text); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+        
+    }
+    // For save command
+    if (evt.getActionCommand().equals("save")) {
+
+      String str = editorPane.getText(); 
+      String filename = "";
+      if(file.isEmpty())
+      {
+        try{
+        final JFileChooser fc = new JFileChooser();
+                
+        // Creates the dialogue box
+        int r = fc.showSaveDialog(null); 
         // if the user selects a file 
         if (r == JFileChooser.APPROVE_OPTION) 
         { 
             // set the label to the path of the selected file 
             filename = fc.getSelectedFile().getAbsolutePath(); 
         }
-        
+        file = filename;
+      
+        }catch(Exception e)
+        {
+           System.out.println("Exception:"+e);
+        }
+      }
+      else 
+        filename = file;
+      try{ 
         // attach a file to FileWriter  
         FileWriter fw = new FileWriter(filename); 
-  
+    
         // read character wise from string and write into FileWriter  
         for (int i = 0; i < str.length(); i++) 
             fw.write(str.charAt(i)); 
-  
-        fw.close(); 
 
+        fw.close(); 
       }catch(Exception e)
       {
-         System.out.println("Exception:"+e);
+          System.out.println("Exception:"+e);        
       }
+        
+    }
 
-      str = " ";
+    // For new command
+    if (evt.getActionCommand().equals("new")) {
+      
+      // Before clearing all text prompt to save existing data
+      String str = editorPane.getText(); 
+      String filename = "";
+      
+      if(file.isEmpty())
+      {
+        try{
+          final JFileChooser fc = new JFileChooser();
+          
+          // Creates the dialogue box
+          int r = fc.showSaveDialog(null); 
+          
+          // if the user selects a file 
+          if (r == JFileChooser.APPROVE_OPTION) 
+          { 
+              // set the label to the path of the selected file 
+              filename = fc.getSelectedFile().getAbsolutePath(); 
+          }
+          
+          // attach a file to FileWriter  
+          FileWriter fw = new FileWriter(filename); 
+    
+          // read character wise from string and write into FileWriter  
+          for (int i = 0; i < str.length(); i++) 
+              fw.write(str.charAt(i)); 
+    
+          fw.close(); 
+
+        }catch(Exception e)
+        {
+           System.out.println("Exception:"+e);
+        }
+      } 
+
+      file = "";
+      str = "";
       editorPane.setText(str); 
     }
     
