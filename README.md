@@ -8,7 +8,7 @@ Build status -
 
 Usage instructions - 
 ----------------------------------
-1) Run the bash script in the scripts folder named compile_run2.sh
+1) Run the bash script in the scripts folder named compile_run.sh
 
 References - 
 1) [Voce: Open source speech interaction](http://voce.sourceforge.net)
