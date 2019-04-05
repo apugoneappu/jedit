@@ -219,7 +219,7 @@ public class TextDemo extends JPanel implements ActionListener {
       
       String filename = "";
       try{
-        final JFileChooser fc = new JFileChooser("/home/shrey/jedit/voce/samples/synthesisTest/java/fonts");
+        final JFileChooser fc = new JFileChooser("./fonts");
         
         // Creates the dialogue box
         int r = fc.showOpenDialog(null); 
