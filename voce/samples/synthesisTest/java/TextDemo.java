@@ -16,6 +16,7 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_paste;
   protected JButton button_copy;
   protected JButton button_cut;
+  protected JButton button_fandr;
 
   Clipboard clipboard;
 
@@ -46,6 +47,7 @@ public class TextDemo extends JPanel implements ActionListener {
     button_paste = new JButton("Paste");
     button_copy = new JButton("Copy");
     button_cut = new JButton("Cut");
+    button_fandr = new JButton("Find and Replace");
 
     editorPane = new JEditorPane();
     JScrollPane scrollPane = new JScrollPane(editorPane);
@@ -106,6 +108,10 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.gridy = 3;
     add(button_cut, c_button);
 
+    c_button.gridx = 0;
+    c_button.gridy = 4;
+    add(button_fandr, c_button);
+
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
@@ -132,6 +138,9 @@ public class TextDemo extends JPanel implements ActionListener {
 
     button_cut.addActionListener(this);
     button_cut.setActionCommand("cut");
+
+    button_fandr.addActionListener(this);
+    button_fandr.setActionCommand("fandr");
   }
 
   public void actionPerformed(ActionEvent evt) {
@@ -332,6 +341,10 @@ public class TextDemo extends JPanel implements ActionListener {
             System.out.println(ex);
         }
       }
+    }
+
+    if (evt.getActionCommand().equals("fandr")) {
+      Snippet fandr = new Snippet(editorPane);
     }
 
 
