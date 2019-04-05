@@ -48,7 +48,7 @@ public class UndoRedo extends JFrame {
                 try {
                     undoManager.undo();
                 } catch (CannotRedoException cre) {
-                    cre.printStackTrace();
+                    //cre.printStackTrace();
                 }
                 updateButtons();
             }
@@ -59,7 +59,7 @@ public class UndoRedo extends JFrame {
                 try {
                     undoManager.redo();
                 } catch (CannotRedoException cre) {
-                    cre.printStackTrace();
+                    //cre.printStackTrace();
                 }
                 updateButtons();
             }
@@ -70,8 +70,8 @@ public class UndoRedo extends JFrame {
     }
 
     public void updateButtons() {
-        undoButton.setText(undoManager.getUndoPresentationName());
-        redoButton.setText(undoManager.getRedoPresentationName());
+        //undoButton.setText(undoManager.getUndoPresentationName());
+        //redoButton.setText(undoManager.getRedoPresentationName());
         undoButton.setEnabled(undoManager.canUndo());
         redoButton.setEnabled(undoManager.canRedo());
     }

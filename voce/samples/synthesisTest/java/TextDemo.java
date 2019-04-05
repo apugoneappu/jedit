@@ -19,6 +19,7 @@ public class TextDemo extends JPanel implements ActionListener {
     protected JButton button_fandr;
     protected JButton button_undo;
     protected JButton button_redo;
+    protected JButton button_selectAll;
 
     Clipboard clipboard;
 
@@ -52,6 +53,7 @@ public class TextDemo extends JPanel implements ActionListener {
         button_fandr = new JButton("Find and Replace");
         button_undo = new JButton("Undo");
         button_redo = new JButton("Redo");
+        button_selectAll = new JButton("Select All");
 
         editorPane = new JEditorPane();
         JScrollPane scrollPane = new JScrollPane(editorPane);
@@ -124,6 +126,10 @@ public class TextDemo extends JPanel implements ActionListener {
         c_button.gridy = 4;
         add(button_redo, c_button);
 
+        c_button.gridx = 0;
+        c_button.gridy = 5;
+        add(button_selectAll, c_button);
+
         button_t2s.addActionListener(this);
         button_t2s.setActionCommand("text2speech");
 
@@ -154,11 +160,10 @@ public class TextDemo extends JPanel implements ActionListener {
         button_fandr.addActionListener(this);
         button_fandr.setActionCommand("fandr");
 
-        button_undo.addActionListener(this);
-        button_undo.setActionCommand("undo");
+        button_selectAll.addActionListener(this);
+        button_selectAll.setActionCommand("selectAll");
 
-        button_redo.addActionListener(this);
-        button_redo.setActionCommand("redo");
+        UndoRedo undo = new UndoRedo(editorPane, button_undo, button_redo);
     }
 
     public void actionPerformed(ActionEvent evt) {
@@ -365,14 +370,9 @@ public class TextDemo extends JPanel implements ActionListener {
             Snippet fandr = new Snippet(editorPane);
         }
 
-        if (evt.getActionCommand().equals("undo")) {
-             UndoRedo undo = new UndoRedo(editorPane, button_undo, button_redo);
+        if (evt.getActionCommand().equals("selectAll")) {
+            editorPane.selectAll();
         }
-
-        if (evt.getActionCommand().equals("redo")) {
-             UndoRedo undo = new UndoRedo(editorPane, button_undo, button_redo);
-        }
-
 
 
 
