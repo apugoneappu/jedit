@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.awt.datatransfer.*;
 
 public class TextDemo extends JPanel implements ActionListener {
 
@@ -12,10 +13,14 @@ public class TextDemo extends JPanel implements ActionListener {
   protected JButton button_save;
   protected JButton button_new;
   protected JButton button_stop;
+  protected JButton button_paste;
+  protected JButton button_copy;
+  protected JButton button_cut;
+  protected JButton button_fandr;
+  protected JButton button_font;
 
-
-  private final static String newline = "\n";
-
+  String file = "";
+  Clipboard clipboard;
   TranscriberDemo speech2Text;
   synthesisTest text2Speech;
 
@@ -23,24 +28,31 @@ public class TextDemo extends JPanel implements ActionListener {
 
     super(new GridBagLayout());
 
-    try{
+    try {
         speech2Text = new TranscriberDemo();
-    }catch( Exception e)
+    }
+    catch( Exception e)
     {
         System.out.println("Exception:"+e);
     }
 
     text2Speech = new synthesisTest();
     
+    clipboard = Toolkit.getDefaultToolkit( ).getSystemClipboard( );
     button_t2s = new JButton("Text To Speech");
     button_s2t = new JButton("Speech To Text");
     button_open = new JButton("Open");
     button_save = new JButton("Save");
     button_new = new JButton("New");
     button_stop = new JButton("Stop");
+    button_paste = new JButton("Paste");
+    button_copy = new JButton("Copy");
+    button_cut = new JButton("Cut");
+    button_fandr = new JButton("Find and Replace");
+    button_font = new JButton("Font");
 
+    
     editorPane = new JEditorPane();
-
     JScrollPane scrollPane = new JScrollPane(editorPane);
 
     //Add Components to this panel.
@@ -87,6 +99,26 @@ public class TextDemo extends JPanel implements ActionListener {
     c_button.gridy = 0;
     add(button_new, c_button);
     
+    c_button.gridx = 0;
+    c_button.gridy = 3;
+    add(button_paste, c_button);
+
+    c_button.gridx = 1;
+    c_button.gridy = 3;
+    add(button_copy, c_button);
+
+    c_button.gridx = 2;
+    c_button.gridy = 3;
+    add(button_cut, c_button);
+
+    c_button.gridx = 0;
+    c_button.gridy = 4;
+    add(button_fandr, c_button);
+
+    c_button.gridx = 4;
+    c_button.gridy = 0;
+    add(button_font, c_button);
+
     button_t2s.addActionListener(this);
     button_t2s.setActionCommand("text2speech");
 
@@ -104,6 +136,21 @@ public class TextDemo extends JPanel implements ActionListener {
 
     button_stop.addActionListener(this);
     button_stop.setActionCommand("stop");
+
+    button_paste.addActionListener(this);
+    button_paste.setActionCommand("paste");
+
+    button_copy.addActionListener(this);
+    button_copy.setActionCommand("copy");
+
+    button_cut.addActionListener(this);
+    button_cut.setActionCommand("cut");
+
+    button_fandr.addActionListener(this);
+    button_fandr.setActionCommand("fandr");
+
+    button_font.addActionListener(this);
+    button_font.setActionCommand("font");
 
   }
 
@@ -167,78 +214,227 @@ public class TextDemo extends JPanel implements ActionListener {
         
     }
 
+    // For font command
+    if (evt.getActionCommand().equals("font")) {
+      
+      String filename = "";
+      try{
+        final JFileChooser fc = new JFileChooser("/home/shrey/jedit/voce/samples/synthesisTest/java/fonts");
+        
+        // Creates the dialogue box
+        int r = fc.showOpenDialog(null); 
+        
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getName(); 
+        } 
+
+        editorPane.setFont(new Font(filename,0,14));
+        // editorPane.setSelectedTextColor(Color.green);
+
+        // String text; 
+        // while ((text = br.readLine()) != null) 
+        //   editorPane.setText(editorPane.getText() + " \n" + text); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+        
+    }
+
+    // For font size command
+    if (evt.getActionCommand().equals("font_size")) {
+      
+      String filename = "";
+      try{
+        final JFileChooser fc = new JFileChooser("/home/shrey/jedit/voce/samples/synthesisTest/java/fonts");
+        
+        // Creates the dialogue box
+        int r = fc.showOpenDialog(null); 
+        
+        // if the user selects a file 
+        if (r == JFileChooser.APPROVE_OPTION) 
+        { 
+            // set the label to the path of the selected file 
+            filename = fc.getSelectedFile().getName(); 
+        } 
+
+        editorPane.setFont(new Font(filename,0,40));
+        // editorPane.setSelectedTextColor(Color.green);
+
+        // String text; 
+        // while ((text = br.readLine()) != null) 
+        //   editorPane.setText(editorPane.getText() + " \n" + text); 
+
+      }catch(Exception e)
+      {
+         System.out.println("Exception:"+e);
+      }
+        
+    }
     // For save command
     if (evt.getActionCommand().equals("save")) {
 
       String str = editorPane.getText(); 
       String filename = "";
-      
-      try{
+      if(file.isEmpty())
+      {
+        try{
         final JFileChooser fc = new JFileChooser();
                 
         // Creates the dialogue box
         int r = fc.showSaveDialog(null); 
-        
         // if the user selects a file 
         if (r == JFileChooser.APPROVE_OPTION) 
         { 
             // set the label to the path of the selected file 
             filename = fc.getSelectedFile().getAbsolutePath(); 
         }
+        file = filename;
+      
+        }catch(Exception e)
+        {
+           System.out.println("Exception:"+e);
+        }
+      }
+      else 
+        filename = file;
+      try{ 
         // attach a file to FileWriter  
         FileWriter fw = new FileWriter(filename); 
-  
+    
         // read character wise from string and write into FileWriter  
         for (int i = 0; i < str.length(); i++) 
             fw.write(str.charAt(i)); 
-  
-        fw.close(); 
 
+        fw.close(); 
       }catch(Exception e)
       {
-         System.out.println("Exception:"+e);
+          System.out.println("Exception:"+e);        
       }
         
     }
 
     // For new command
     if (evt.getActionCommand().equals("new")) {
-
+      
       // Before clearing all text prompt to save existing data
       String str = editorPane.getText(); 
       String filename = "";
       
-      try{
-        final JFileChooser fc = new JFileChooser();
-        
-        // Creates the dialogue box
-        int r = fc.showSaveDialog(null); 
-        
-        // if the user selects a file 
-        if (r == JFileChooser.APPROVE_OPTION) 
-        { 
-            // set the label to the path of the selected file 
-            filename = fc.getSelectedFile().getAbsolutePath(); 
-        }
-        
-        // attach a file to FileWriter  
-        FileWriter fw = new FileWriter(filename); 
-  
-        // read character wise from string and write into FileWriter  
-        for (int i = 0; i < str.length(); i++) 
-            fw.write(str.charAt(i)); 
-  
-        fw.close(); 
-
-      }catch(Exception e)
+      if(file.isEmpty())
       {
-         System.out.println("Exception:"+e);
-      }
+        try{
+          final JFileChooser fc = new JFileChooser();
+          
+          // Creates the dialogue box
+          int r = fc.showSaveDialog(null); 
+          
+          // if the user selects a file 
+          if (r == JFileChooser.APPROVE_OPTION) 
+          { 
+              // set the label to the path of the selected file 
+              filename = fc.getSelectedFile().getAbsolutePath(); 
+          }
+          
+          // attach a file to FileWriter  
+          FileWriter fw = new FileWriter(filename); 
+    
+          // read character wise from string and write into FileWriter  
+          for (int i = 0; i < str.length(); i++) 
+              fw.write(str.charAt(i)); 
+    
+          fw.close(); 
 
-      str = " ";
+        }catch(Exception e)
+        {
+           System.out.println("Exception:"+e);
+        }
+      } 
+
+      file = "";
+      str = "";
       editorPane.setText(str); 
     }
     
+    if (evt.getActionCommand().equals("paste")) {
+
+      try {
+         Transferable t = clipboard.getContents(null);
+         if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+           String text = (String)t.getTransferData(DataFlavor.stringFlavor);
+           editorPane.getDocument().insertString(editorPane.getCaretPosition(), text, null);
+         }
+      }
+      catch (Exception ex) {
+          System.out.println(ex);
+      }
+
+    }
+
+    if (evt.getActionCommand().equals("copy")) {
+
+      //if no text is selected, copy all
+      if (editorPane.getSelectedText() == null) {
+        try {
+           StringSelection data = new StringSelection(editorPane.getText());
+           clipboard.setContents(data, data);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+
+      //some text is selected, copy only that
+      else {
+        try {
+           StringSelection data = new StringSelection(editorPane.getSelectedText());
+           clipboard.setContents(data, data);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+    }
+
+    if (evt.getActionCommand().equals("cut")) {
+
+      //if no text is selected, cut all
+      if (editorPane.getSelectedText() == null) {
+
+        try {
+           StringSelection data = new StringSelection(editorPane.getText());
+           clipboard.setContents(data, data);
+           editorPane.setText("");
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+
+      //some text is selected, cut only that
+      else {
+        try {
+           StringSelection data = new StringSelection(editorPane.getSelectedText());
+           clipboard.setContents(data, data);
+           editorPane.replaceSelection("");
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+      }
+    }
+
+    if (evt.getActionCommand().equals("fandr")) {
+      Snippet fandr = new Snippet(editorPane);
+    }
+
+
+
+
   }
 
   /**
