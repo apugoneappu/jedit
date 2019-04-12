@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.awt.datatransfer.*;
 
-//public class TextDemo extends JPanel implements ActionListener {
+public class TextDemo extends JPanel implements ActionListener {
 
     String file = "";
     protected JEditorPane editorPane;
