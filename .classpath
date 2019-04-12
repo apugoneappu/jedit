@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="voce/samples"/>
+	<classpathentry kind="lib" path="voce/lib/cmu_us_kal.jar"/>
+	<classpathentry kind="lib" path="voce/lib/cmulex.jar"/>
+	<classpathentry kind="lib" path="voce/lib/en_us.jar"/>
+	<classpathentry kind="lib" path="voce/lib/freetts.jar"/>
+	<classpathentry kind="lib" path="voce/lib/jsapi.jar"/>
+	<classpathentry kind="lib" path="voce/lib/sphinx4-core-5prealpha-20160628.232526-10.jar"/>
+	<classpathentry kind="lib" path="voce/lib/sphinx4-data-5prealpha-20160628.232535-10.jar"/>
+	<classpathentry kind="lib" path="voce/lib/voce.jar"/>
+	<classpathentry kind="lib" path="voce/lib/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
+	<classpathentry kind="output" path="voce/samples"/>
+</classpath>
